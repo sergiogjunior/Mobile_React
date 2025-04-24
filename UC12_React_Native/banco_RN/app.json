@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "banco_react",
-    "slug": "banco_react",
+    "name": "banco_RN",
+    "slug": "banco_RN",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
