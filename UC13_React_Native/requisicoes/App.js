@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 
 import api from './src/services/api';
+import Filme from './src/Filmes';
 
 export default function App() {
 
@@ -23,7 +24,9 @@ getFilmes();
   return (
     <View style={styles.container}>
 
-      <Text>Filmes</Text>
+      <FlatList data={filmes}
+        renderItem={({item})=><Filme data={item}></Filme>}>
+      </FlatList>
       
     </View>
   );
@@ -32,8 +35,5 @@ getFilmes();
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
