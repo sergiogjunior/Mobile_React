@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-
 import { Text, View, Image, StyleSheet, TouchableOpacity, Modal } from "react-native";
-
+import Modal_Filmes from '../Modal_Filmes';
 
 export default function Filmes({ data }) {
     const [modalVisible, setModalVisible] = useState(false);
+
     return (
         <View>
             <View style={styles.card}>
@@ -18,22 +18,21 @@ export default function Filmes({ data }) {
                 </TouchableOpacity>
             </View>
 
-            <Modal animationType="slide" visible={modalVisible} transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalConteudo}>
-                        <Text style={styles.titulo}>{data.nome}</Text>
-                        <Text style={styles.sinopse}>{data.sinopse}</Text>
-
-                        <TouchableOpacity style={styles.botao} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.textoBotao}>Fechar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}
+            >
+                <Modal_Filmes
+                    filme={data}
+                    voltar={() => setModalVisible(false)}
+                />
             </Modal>
-
         </View>
-
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -51,7 +50,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         padding: 15,
-
     },
     areaBotao: {
         alignItems: 'flex-end',
@@ -70,23 +68,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 13,
         textAlign: 'center'
-
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modalConteudo: {
-        backgroundColor: '#fff',
-        padding: 20,
-        borderRadius: 10,
-        width: '80%',
-    },
-    sinopse: {
-        fontSize: 16,
-        marginVertical: 10,
-        textAlign: 'center',
-    },
-
 });
