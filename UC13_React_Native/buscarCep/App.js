@@ -6,20 +6,22 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ActivityIndicator, // Indicador de carregamento
 } from 'react-native';
 
-import api from './src/services/api';
-import CepInfo from './src/componentes/CepInfo';
+import api from './src/services/api'; // Conexão com a API ViaCEP
+import CepInfo from './src/componentes/CepInfo'; // Componente para exibir dados do CEP
 
 export default function App() {
-  const [cepInput, setCepInput] = useState('');
-  const [cepData, setCepData] = useState(null);
+  const [cepInput, setCepInput] = useState(''); // Estado para o input do CEP
+  const [cepData, setCepData] = useState(null); // Estado para os dados do CEP
+  const [loading, setLoading] = useState(false); // Estado para controlar o loading
 
-  const inputRef = useRef(null);
+  const inputRef = useRef(null); // Referência para o campo de input
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus(); // Foca no input ao iniciar o app
     }
   }, []);
 
@@ -29,15 +31,18 @@ export default function App() {
       return;
     }
 
-    const limpaCep = cepInput.replace(/[^0-9]/g, '');
+    setLoading(true); // Ativa o loading
+
+    const limpaCep = cepInput.replace(/[^0-9]/g, ''); // Limpa o CEP
 
     if (limpaCep.length !== 8) {
       Alert.alert('Atenção', 'O CEP deve ter 8 dígitos numéricos.');
+      setLoading(false); // Desativa o loading se inválido
       return;
     }
 
     try {
-      const response = await api.get(`/${limpaCep}/json/`);
+      const response = await api.get(`/${limpaCep}/json/`); // Busca na API
       
       if (response.data.erro) {
         Alert.alert('Erro', 'CEP não encontrado.');
@@ -52,16 +57,16 @@ export default function App() {
       console.error(error);
       Alert.alert('Erro', 'Falha ao buscar CEP. tente novamente.');
       setCepData(null); 
+    } finally {
+      setLoading(false); // Desativa o loading sempre
     }
   }
 
-  function busca() {
-    setCepInput('');
-    setCepData(null);
-    
-
+  function limpa() {
+    setCepInput(''); // Limpa o input
+    setCepData(null); // Limpa os dados
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus(); // Foca no input
     }
   }
 
@@ -81,11 +86,25 @@ export default function App() {
       />
 
       <View style={estilos.areaBotoes}>
-        <TouchableOpacity style={estilos.botaoBuscar} onPress={busca} activeOpacity={0.7}>
-          <Text style={estilos.textoBotao}>Buscar</Text>
+        <TouchableOpacity 
+          style={estilos.botaoBuscar} 
+          onPress={busca} 
+          activeOpacity={0.7}
+          disabled={loading} // Desabilita botão durante o loading
+        >
+          {loading ? (
+            <ActivityIndicator size="small" color="#1E1E1E" /> // Mostra loading
+          ) : (
+            <Text style={estilos.textoBotao}>Buscar</Text>
+          )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={estilos.botaoLimpar} onPress={busca} activeOpacity={0.7}>
+        <TouchableOpacity 
+          style={estilos.botaoLimpar} 
+          onPress={limpa} 
+          activeOpacity={0.7}
+          disabled={loading} // Desabilita botão durante o loading
+        >
           <Text style={estilos.textoBotao}>Limpar</Text>
         </TouchableOpacity>
       </View>
@@ -133,7 +152,7 @@ const estilos = StyleSheet.create({
     backgroundColor: '#64B5F6', 
     alignItems: 'center',
     justifyContent: 'center',
-    
+    marginRight: 10,
   },
   botaoLimpar: {
     flex: 1,
@@ -142,7 +161,7 @@ const estilos = StyleSheet.create({
     backgroundColor: '#FF7043', 
     alignItems: 'center',
     justifyContent: 'center',
-    
+    marginLeft: 10,
   },
   textoBotao: {
     color: '#1E1E1E',

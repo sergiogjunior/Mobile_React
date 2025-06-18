@@ -3,11 +3,12 @@ import { StyleSheet, View, Text } from 'react-native';
 
 export default function CepInfo({ data }) {
   if (!data || data.erro) {
-    return null;
+    return null; // Não renderiza se não houver dados ou houver erro
   }
 
   return (
     <View style={estilos.conteiner}>
+      {/* Exibe as informações do CEP */}
       <Text style={estilos.linhaTexto}><Text style={estilos.rotulo}>CEP:</Text> <Text style={estilos.valor}>{data.cep}</Text></Text>
       <Text style={estilos.linhaTexto}><Text style={estilos.rotulo}>Logradouro:</Text> <Text style={estilos.valor}>{data.logradouro}</Text></Text>
       <Text style={estilos.linhaTexto}><Text style={estilos.rotulo}>Bairro:</Text> <Text style={estilos.valor}>{data.bairro}</Text></Text>
