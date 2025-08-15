@@ -101,6 +101,10 @@ export default function App() {
   function handleToggle(){
     setshowForm(!showForm);
   }
+
+  function editUser(data){
+    console.log(data);
+  }
  
   return (
  
@@ -154,7 +158,7 @@ export default function App() {
       <FlatList style={styles.lista}
       data={users}
       keyExtractor={(item)=> String(item.id)}
-      renderItem={({item})=><UsersList data={item}></UsersList>}
+      renderItem={({item})=><UsersList data={item} handlerEdit={(item)=>editUser(item)} ></UsersList>}
       />
  
  
