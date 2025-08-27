@@ -10,7 +10,8 @@ export function UsersList({data, handlerEdit}){
   }
 
   function handlerEditUser(){
-    console.log(data)
+    //console.log(data)
+    handlerEdit(data)
   }
 
   return(
