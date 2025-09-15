@@ -1,23 +1,24 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth';
+import {initializeAuth, getReactNativePersistence} from 'firebase/auth';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+ 
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC-pOLFSI8uG2k_1n-a8HM3UzQRftN8AWw",
-  authDomain: "tds03-b18e1.firebaseapp.com",
-  projectId: "tds03-b18e1",
-  storageBucket: "tds03-b18e1.firebasestorage.app",
-  messagingSenderId: "357204919657",
-  appId: "1:357204919657:web:1bd2d40d0ecf146a5ae9f8"
+  apiKey: "AIzaSyC-EzI5CUiCww-1ytbZWIyZJR5BlPTR3cc",
+  authDomain: "tds03-database.firebaseapp.com",
+  projectId: "tds03-database",
+  storageBucket: "tds03-database.firebasestorage.app",
+  messagingSenderId: "612411695285",
+  appId: "1:612411695285:web:fbae733544d1974f791efc"
 };
-
+ 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
-
-export {db};
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+ 
+export { db , auth };

@@ -1,63 +1,71 @@
-import { doc, deleteDoc } from "firebase/firestore";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { db } from "./firebaseConnection";
-
-export function UsersList({data, handlerEdit}){
-
-  async function handlerDeleteItem(){
-    const docRef = doc(db, "users", data.id)
-    await deleteDoc(docRef)
+import { deleteDoc, doc } from "firebase/firestore";
+ 
+export function UsersList({ data, handlerEdit }) {
+  async function handlerDeletarItem() {
+    // console.log(data)
+    const docRef = doc(db, "Users", data.id);
+    await deleteDoc(docRef);
   }
-
-  function handlerEditUser(){
+ 
+  function handlerEditUser() {
     //console.log(data)
-    handlerEdit(data)
+    handlerEdit(data);
   }
-
-  return(
+  return (
     <View style={styles.container}>
-      <Text style={styles.item}>Nome: {data.nome} </Text>
-      <Text style={styles.item}>Idade: {data.idade} </Text>
-      <Text style={styles.item}>Cargo: {data.cargo} </Text>
-      <TouchableOpacity style={styles.buttonExc} onPress={handlerDeleteItem}>
-        <Text style={styles.txtButton}>Deletar Usuario</Text>
+      <Text>Nome: {data.nome}</Text>
+      <Text>Idade:{data.idade}</Text>
+      <Text>Cargo:{data.cargo}</Text>
+      <TouchableOpacity style={styles.botao} onPress={handlerDeletarItem}>
+        <Text style={styles.texto}>Deletar Usuário</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.buttonEdt} onPress={handlerEditUser}>
-        <Text style={styles.txtButton}>Editar Usuario</Text>
+ 
+      <TouchableOpacity style={styles.butonEdit} onPress={handlerEditUser}>
+        <Text style={styles.texto}>Editar Usuário</Text>
       </TouchableOpacity>
     </View>
-  )
+  );
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'gray',
+    backgroundColor: "#f0f0f0",
     padding: 10,
     borderRadius: 5,
     marginBottom: 15,
+    margin: 10,
+    borderRadius: 8,
   },
-  item:{
-    color:'#000',
-    fontSize: 16,
+  botao: {
+    padding: 10,
+    width: 75,
+    borderRadius: 10,
+    borderColor: "black",
+    height: 60,
+    backgroundColor: "#DC143C",
+    borderWidth: 2,
+    margin: 10,
+    marginLeft: 250,
+    marginTop: 38,
   },
-  buttonExc:{
-    alignSelf: 'flex-end',
-    backgroundColor: 'red',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
+ 
+  butonEdit: {
+    padding: 10,
+    width: 75,
+    borderRadius: 10,
+    borderColor: "black",
+    height: 60,
+    backgroundColor: "green",
+    borderWidth: 2,
+    margin: 15,
+    marginrigth: 250,
+    marginTop: -70,
   },
-  buttonEdt:{
-    alignSelf: 'flex-end',
-    backgroundColor: 'green',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
-    marginTop: 10
+ 
+  texto: {
+    fontWeight: "bold",
+    color: "#fff",
   },
-  txtButton:{
-    color: '#fff',
-    textAlign: 'center'
-  }
-})
+});
